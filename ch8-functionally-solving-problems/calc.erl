@@ -3,8 +3,13 @@
 
 %%% Reverse Polish Notation = RPN
 rpn(List) when is_list(List) ->
-    [Res] = lists:foldl(fun rpn/2, [], string:tokens(List, " ")),
-    Res.
+    try 
+        [Res] = lists:foldl(fun rpn/2, [], string:tokens(List, " "))
+    of 
+        _ -> Res
+    catch
+        error:{badmatch, Value} -> {badarith, "exception error: more than on values left on the stack", Value}
+    end.
 
 rpn("+", [N1, N2|Stack]) -> [N2+N1|Stack];
 rpn("-", [N1, N2|Stack]) -> [N2-N1|Stack];
