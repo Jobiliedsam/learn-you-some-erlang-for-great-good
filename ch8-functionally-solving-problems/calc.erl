@@ -46,11 +46,7 @@ rpn_test() ->
     87 = rpn("90 3 -"),
     -4 = rpn("10 4 3 + 2 * -"),
     -2.0 = rpn("10 4 3 + 2 * - 2 /"),
-    ok = try 
-        rpn("90 34 12 +")
-    catch 
-        error:{badmatch, [_|_]} -> ok
-    end,
+    {badarith, _, _} = rpn("90 34 12 +"),
     4037 = rpn("90 34 12 33 55 66 + * - + -"),
     8.0 = rpn("2 3 ^"),
     true = math:sqrt(2) == rpn("2 0.5 ^"),
